@@ -8,9 +8,21 @@ use Illuminate\Database\Eloquent\Model;
 class Post extends Model
 {
     use HasFactory;
-    protected $guarded = [];
+    protected $fillable = [
+        'title',
+        'contents',
+        'image',
+    ];
+    public function postImage()
+    {
+        return ($this->image) ? 'storage/'.$this->image : 'storage/uploads/brak-zdjecia.png';
+    }
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+    public function comments()
+    {
+        return $this->hasMany(Comment::class)->latest();
     }
 }

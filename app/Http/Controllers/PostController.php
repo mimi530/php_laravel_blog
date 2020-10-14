@@ -11,7 +11,7 @@ class PostController extends Controller
 {
     public function index()
     {
-        $posts = Post::latest()->simplePaginate(5);
+        $posts = Post::latest()->Paginate(5);
         return view('posts.index', compact('posts'));
     }
     public function create()
@@ -27,9 +27,13 @@ class PostController extends Controller
             'contents' => 'required',
             'image' => 'image',
         ]);
-        $imagePath = request('image') ? request('image')->store('uploads', 'public') : 'brak-zdjecia.png';
-        $image = Image::make(public_path("storage/{$imagePath}"))->resize(1200, 800);
-        $image->save();
+        if(request('image')) {
+            $imagePath = request('image')->store('uploads', 'public');
+            $image = Image::make(public_path("storage/{$imagePath}"))->resize(1200, 800);
+            $image->save();
+        } else {
+            $imagePath = null;
+        }
         auth()->user()->posts()->create([
             'title' => $data['title'],
             'contents' => $data['contents'],
