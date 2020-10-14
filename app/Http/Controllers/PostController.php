@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use Intervention\Image\Facades\Image;
+use App\Policies\PostPolicy;
 
 class PostController extends Controller
 {
@@ -15,18 +16,18 @@ class PostController extends Controller
     }
     public function create()
     {
-        $this->middleware('auth');
+        $this->authorize('create', Post::class);
         return view('posts.create');
     }
     public function store()
     {
-        $this->middleware('auth');
+        $this->authorize('create', Post::class);
         $data = request()->validate([
             'title' => 'required',
             'contents' => 'required',
             'image' => 'image',
         ]);
-        $imagePath = request('image') ? request('image')->store('uploads', 'public') : 'uploads/brak-zdjecia.png';
+        $imagePath = request('image') ? request('image')->store('uploads', 'public') : 'brak-zdjecia.png';
         $image = Image::make(public_path("storage/{$imagePath}"))->resize(1200, 800);
         $image->save();
         auth()->user()->posts()->create([
@@ -42,12 +43,12 @@ class PostController extends Controller
     }
     public function edit(Post $post)
     {
-        $this->middleware('auth');
+        $this->authorize('update', $post);
         return view('posts.edit', compact('post'));
     }
     public function update(Post $post)
     {
-        $this->middleware('auth');
+        $this->authorize('update', $post);
         $data = request()->validate([
             'title' => 'required',
             'contents' => 'required',
@@ -64,7 +65,7 @@ class PostController extends Controller
     }
     public function destroy(Post $post)
     {
-        $this->middleware('auth');
+        $this->authorize('delete', $post);
         $imagePath = public_path().'/storage/'.$post->image;
         \File::delete($imagePath);
         $post->delete();
