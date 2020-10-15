@@ -60,6 +60,7 @@ class PostController extends Controller
         ]);
         $imagePath = $post->image;
         if(request('image')) {
+            \File::delete($imagePath);
             $imagePath = request('image')->store('uploads', 'public');
             $image = Image::make(public_path("storage/{$imagePath}"))->resize(1200, 800);
             $image->save();

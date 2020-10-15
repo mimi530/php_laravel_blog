@@ -74,6 +74,10 @@ body {
   text-align: left;
   background-color: #eee;
 }
+#com_del_button {
+  background: none !important;
+  border: none;
+}
 
 [tabindex="-1"]:focus:not(:focus-visible) {
   outline: 0 !important;

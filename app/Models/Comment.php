@@ -12,11 +12,21 @@ class Comment extends Model
         'name',
         'email',
         'comment',
+        'user_id',
+        'reply_id'
     ];
     public function post()
     {
-        $this->belongsTo(Post::class);
+        return $this->belongsTo(Post::class);
     }
+    public function replies()
+    {
+        return $this->hasMany(Comment::class, 'reply_id');
+    }
+    // public function comment()
+    // {
+    //     return $this->belongsTo(Comment::class, 'reply_id');
+    // }
     public function adminComment()
     {
         $user = User::where('email',$this->email)->first();

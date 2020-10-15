@@ -8,7 +8,7 @@
         <div class="form-group row">
             <div class="col-md-6">
             <label for="title">Tytuł</label>
-                <input id="title" type="text" class="form-control @error('title') is-invalid @enderror" name="title" value="{{ old('title') }}" required autocomplete="title" autofocus>
+                <input id="title" type="text" class="form-control @error('title') is-invalid @enderror" name="title" value="{{ old('title') }}" autocomplete="title" autofocus>
                 @error('title')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
@@ -19,7 +19,7 @@
         <div class="form-group row">
             <div class="col-md-6">
             <label for="contents">Treść</label>
-                <textarea id="contents" class="form-control @error('contents') is-invalid @enderror" name="contents" required style="resize: none;" rows="10" cols="50" autocomplete="contents">{{ old('contents') }}</textarea>
+                <textarea id="contents" class="form-control @error('contents') is-invalid @enderror" name="contents" style="resize: none;" rows="10" cols="50" autocomplete="contents">{{ old('contents') }}</textarea>
                 @error('contents')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
@@ -31,7 +31,7 @@
             <div class="col-md-6">
             <label for="contents">Zdjęcie</label>
                 <input type="file" id="contents" class="form-control @error('contents') is-invalid @enderror" name="image">
-                @error('contents')
+                @error('image')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
                     </span>
