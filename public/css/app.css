@@ -74,6 +74,12 @@ body {
   text-align: left;
   background-color: #eee;
 }
+
+.b1
+{
+  border: 1px solid red;
+}
+
 #com_del_button {
   background: none !important;
   border: none;

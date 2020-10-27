@@ -11,7 +11,7 @@
         <div class="form-group row">
             <div class="col-md-6">
             <label for="title">Tytuł</label>
-                <input id="title" type="text" class="form-control @error('title') is-invalid @enderror" name="title" value="{{ $post->title or old('title') }}" autocomplete="title" autofocus>
+                <input id="title" type="text" class="form-control @error('title') is-invalid @enderror" name="title" value="{{ isset($post) ? $post->title : old('title') }}" autocomplete="title" autofocus>
                 @error('title')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>

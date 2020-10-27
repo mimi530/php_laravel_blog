@@ -1,7 +1,7 @@
 <div class="row mx-auto p-4 mt-5" style="background-color: #ddd;">
     <!-- Adding Comment -->
     <h2>{{$post->countComments()}} Komentarzy</h2>
-    <div class="row mx-auto w-100">
+    <div class="row mx-auto w-100 mb-3 px-3 text-center">
         @guest
             <h4 class="mx-auto"><a href="{{ route('login') }}">Zaloguj się</a> aby dodawać komentarze!</h4>
         @else
@@ -19,7 +19,7 @@
     </div>
     <!-- Comments -->
     @foreach($post->comments as $comment)
-        <div class="d-flex flex-row w-100 mt-3 p-3">
+        <div class="d-flex flex-row w-100 p-2">
             <div class="p-0">
                 <img src="https://www.gravatar.com/avatar/{{ md5($comment->email) }}.jpg?s=64" class="d-block ml-auto">
             </div>
@@ -32,11 +32,9 @@
                     {{ $comment->comment }}
                 </p>
                 <div class="d-flex flex-row">
-                    <button class="font-weight-bold btn p-0 mr-1 {{ (!Auth::check()) ? 'disabled' : ''}}" onclick="reply({{$comment->id}})">Odpowiedz</button>
-                    <form></form>
-                    @can('update', $comment)
-                        <a href="{{route('comments.edit', $comment->id)}}" class="mx-1 btn text-primary p-0">Edytuj</a>
-                    @endcan
+                    @auth
+                        <button class="font-weight-bold btn p-0 mr-1" onclick="reply({{$comment->id}})">Odpowiedz</button>
+                    @endauth
                     @can('delete', $comment)
                     <form action="{{ route('comments.destroy', $comment->id) }}" method="post" onsubmit="return confirm('Czy na pewno chcesz usunąć post?');">
                         @method('delete')
@@ -61,7 +59,7 @@
         </div>
         <!-- Replies -->
         @foreach($comment->replies as $reply)
-            <div class="d-flex flex-row p-3 ml-5 w-100">
+            <div class="d-flex flex-row p-2 ml-5 w-100">
                 <div class="p-0">
                     <img src="https://www.gravatar.com/avatar/{{ md5($reply->email) }}.jpg?s=64" class="d-block ml-auto">
                 </div>
@@ -74,10 +72,9 @@
                         {{ $reply->comment }}
                     </p>
                     <div class="d-flex flex-row">
-                        <button class="font-weight-bold btn p-0 mr-1 {{ (!Auth::check()) ? 'disabled' : ''}}" onclick="reply({{$reply->id}})">Odpowiedz</button>
-                        @can('update', $reply)
-                            <a href="{{route('comments.edit', $reply->id)}}" class="mx-1">Edytuj</a>
-                        @endcan
+                        @auth
+                            <button class="font-weight-bold btn p-0 mr-1" onclick="reply({{$reply->id}})">Odpowiedz</button>
+                        @endauth
                         @can('delete', $reply)
                         <form action="{{ route('comments.destroy', $reply->id) }}" method="post" onsubmit="return confirm('Czy na pewno chcesz usunąć post?');">
                             @method('delete')
